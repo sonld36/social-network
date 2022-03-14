@@ -8,12 +8,13 @@ import { LocalAuthGuard } from "./local-auth.guard";
 
 @Controller("auth")
 
-export class AuthenticateController {
-    constructor(private authService: AuthenticateService) {}
+export class AuthenticateController{
+    constructor(private authService: AuthenticateService) {
+    }
 
     @Post("register")
-    regisUser(@Body() aUser: RegisterDto): Promise<User> {
-        return this.authService.create(aUser);
+    regisUser(@Body() aUser: RegisterDto): Promise<any> {
+        return this.authService.create(aUser);   
     }
 
     @UseGuards(LocalAuthGuard)

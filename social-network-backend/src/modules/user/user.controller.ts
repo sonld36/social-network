@@ -14,4 +14,9 @@ export class UserController {
     getUserProfile(@Request() request): Promise<any> {
         return this.userService.findUserById(request.user.userId);
     }
+
+    @Post("/user/infor")
+    updateInforUser(@Body() information): Promise<any> {
+        return;
+    } 
 }

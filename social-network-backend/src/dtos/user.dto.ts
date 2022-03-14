@@ -31,6 +31,13 @@ export class RegisterDto {
     password: string;
 }
 
+export class InformationUserDto {
+    province: string;
+    school: string;
+    phoneNumber: string;
+    avatar: string;
+}
+
 export class LoginDto {
     email: string;
     password: string;
