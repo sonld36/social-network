@@ -10,7 +10,7 @@ export class UserController {
     constructor(private userService: UserService) {}
 
     @UseGuards(JwtAuthGuard)
-    @Get("/profile/user")
+    @Get("/user/profile")
     getUserProfile(@Request() request): Promise<any> {
         return this.userService.findUserById(request.user.userId);
     }

@@ -7,8 +7,7 @@ import { InjectModel } from "@nestjs/mongoose";
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,
-                private jwtStrategy: JwtStrategy) {}
+    constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
     async findUserById(idUser: string): Promise<User> {
         return await this.userModel.findById(idUser);

@@ -15,7 +15,7 @@ import { LocalStrategy } from "./local.strategy";
                 secret: jwtConstants.secret,
                 signOptions: {expiresIn: '60s'},
             })],
-    providers: [AuthenticateService, LocalStrategy, JwtStrategy],
+    providers: [AuthenticateService, LocalStrategy, JwtAuthGuard],
     controllers: [AuthenticateController],
     exports: [JwtAuthGuard]
 })
