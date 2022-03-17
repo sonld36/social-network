@@ -24,8 +24,10 @@ export class User {
         province: string,
         school: string,
         phoneNumber: string,
-        avatar: string,
     };
+
+    @Prop()
+    avatar: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
