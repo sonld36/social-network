@@ -39,7 +39,16 @@ export class InformationUserDto {
 }
 
 export class LoginDto {
+    @IsEmail()
+    @IsNotEmpty()
+    @IsString()
     email: string;
+
+    @IsString()
+    @MinLength(8)
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%&?~]{8,}$/,{
+        message: "Password is invalid",
+    })
     password: string;
 
 }
