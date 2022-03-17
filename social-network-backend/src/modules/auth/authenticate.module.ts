@@ -13,11 +13,11 @@ import { LocalStrategy } from "./local.strategy";
     imports: [MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
             JwtModule.register({
                 secret: jwtConstants.secret,
-                signOptions: {expiresIn: '60s'},
+                signOptions: {expiresIn: '600s'},
             })],
-    providers: [AuthenticateService, LocalStrategy, JwtAuthGuard],
+    providers: [AuthenticateService, LocalStrategy, JwtStrategy],
     controllers: [AuthenticateController],
-    exports: [JwtAuthGuard]
+    exports: [AuthenticateService]
 })
 
 export class AuthenticateModule {}
