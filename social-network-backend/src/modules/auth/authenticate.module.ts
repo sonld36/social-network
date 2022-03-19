@@ -10,14 +10,14 @@ import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
 
 @Module({
-    imports: [MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
-            JwtModule.register({
-                secret: jwtConstants.secret,
-                signOptions: {expiresIn: '60s'},
-            })],
-    providers: [AuthenticateService, LocalStrategy, JwtAuthGuard],
-    controllers: [AuthenticateController],
-    exports: [JwtAuthGuard]
+  imports: [MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
+    JwtModule.register({
+        secret: jwtConstants.secret,
+        signOptions: {expiresIn: '600s'},
+    })],
+  providers: [AuthenticateService, LocalStrategy, JwtStrategy],
+  controllers: [AuthenticateController],
+  exports: [AuthenticateService]
 })
 
 export class AuthenticateModule {}
