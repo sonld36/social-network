@@ -5,7 +5,6 @@ import { Observable, of } from "rxjs";
 import { InformationUserDto } from "src/dtos/user.dto";
 import { User } from "src/schemas/user.schema";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
-import { JwtStrategy } from "../auth/jwt.strategy";
 import { UserService } from "./user.service";
 import { diskStorage } from "multer";
 import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer-options.interface";
