@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { Observable } from "rxjs";
-import { LocalStrategy } from "./local.strategy";
+import { LocalStrategy } from "../strategies/local.strategy";
 
 @Injectable()
 export class LocalAuthGuard extends AuthGuard('local') implements CanActivate {

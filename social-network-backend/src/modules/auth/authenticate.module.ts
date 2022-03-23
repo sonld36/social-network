@@ -5,9 +5,9 @@ import { jwtConstants } from "src/constants/constants";
 import { User, UserSchema } from "src/schemas/user.schema";
 import { AuthenticateController } from "./authenticate.controller";
 import { AuthenticateService } from "./authenticate.service";
-import { JwtAuthGuard } from "./jwt-auth.guard";
-import { JwtStrategy } from "./jwt.strategy";
-import { LocalStrategy } from "./local.strategy";
+import { JwtStrategy } from "./strategies/jwt.strategy";
+import { LocalStrategy } from "./strategies/local.strategy";
+
 
 @Module({
     imports: [MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),

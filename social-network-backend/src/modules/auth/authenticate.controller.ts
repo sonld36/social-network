@@ -3,7 +3,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { LoginDto, RegisterDto } from "src/dtos/user.dto";
 import { User } from "src/schemas/user.schema";
 import { AuthenticateService } from "./authenticate.service";
-import { LocalAuthGuard } from "./local-auth.guard";
+import { LocalAuthGuard } from "./guards/local-auth.guard";
 
 
 @Controller("auth")
