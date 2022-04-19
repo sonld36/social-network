@@ -19,6 +19,11 @@ export class AuthenticateService extends BaseService {
     super();
   }
 
+  async getUserWithoutPassword(aUser: any) {
+    const { password, ...withoutPassword } = aUser;
+    return withoutPassword;
+  }
+
   async findOneByEmail(email: string): Promise<any> {
     return await this.user.findOne({ email: email });
   }
@@ -50,14 +55,21 @@ export class AuthenticateService extends BaseService {
 
       const newUser = {
         ...aUser,
-        password
+        password,
       };
-      await this.user.create(newUser);
-      return this.response(newUser);
+      var aNewUser = await this.user.create(newUser);
+      // console.log(aNewUser);
+      await aNewUser.update({ $set: { friends: aNewUser._id } }, { new: true });
+
+      const { email, _id, roles } = aNewUser;
+      const payload = { email: email, idUser: _id, roles: roles };
+      return {
+        jwt: this.jwtService.sign(payload),
+        user: await this.getUserWithoutPassword(aNewUser['_doc']),
+      };
+
     })
       .catch(err => this.response(err, 401, "Something was wrong", true));
-
-    // return;
 
   }
 
@@ -82,7 +94,8 @@ export class AuthenticateService extends BaseService {
     const { email, _id, roles } = user;
     const payload = { email: email, idUser: _id, roles: roles };
     return {
-      token: this.jwtService.sign(payload)
+      jwt: this.jwtService.sign(payload),
+      user: this.getUserWithoutPassword(user),
     };
   }
 }

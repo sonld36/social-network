@@ -1,16 +1,14 @@
-import { Controller, Body, Get, Post, Request, UseGuards, UseInterceptors, UploadedFile } from "@nestjs/common";
+import { Controller, Body, Get, Post, Request, UseGuards, UseInterceptors, UploadedFile, Delete, Param } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { request } from "http";
-import { Observable, of } from "rxjs";
 import { InformationUserDto } from "src/dtos/user.dto";
 import { User } from "src/schemas/user.schema";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { UserService } from "./user.service";
 import { diskStorage } from "multer";
-import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer-options.interface";
-import { uuid } from "uuidv4";
-
-import path = require("path");
+import { editFileName } from "src/constants/constantFunctions";
+import { RoleGuard } from "../auth/guards/role.guard";
+import { Roles } from "../auth/decorators/role.decorator";
+import { Role } from "../auth/enums/role.enum";
 
 
 @UseGuards(JwtAuthGuard)
@@ -36,17 +34,27 @@ export class UserController {
     {
       storage: diskStorage({
         destination: `./upload/avatar`,
-        filename: async (req, file, cb) => {
-          const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuid();
-          const extension: string = path.parse(file.originalname).ext;
-
-          cb(null, `${filename}${extension}`);
-        }
+        filename: async (req, file, cb) => editFileName(req, file, cb)
       })
     }))
   uploadAvatar(@Request() request,@UploadedFile() file: Express.Multer.File): Promise<any> {
     return this.userService.uploadAvatar(request.user.userId, file.path);
   };
-}
 
-    
+  @Roles(Role.Admin)
+  @UseGuards(RoleGuard)
+  @Delete("/user/:id")
+  deleteUser(@Param() param) {
+    return this.userService.deleteUser(param.id);
+  }
+
+  @Post("/send-friend-invite/:idRec")
+  async sendFriendInvitaion(@Param() param, @Request() req) {
+    return await this.userService.sendFriendInvitation(req.user.userId, param.idRec);
+  }
+
+  @Post("/accept-friend-invite/:idReq")
+  async acceptFriendInvitation(@Param() param, @Request() req) {
+    return await this.userService.acceptRequestFriend(req.user.userId, param.idReq);
+  }
+}
